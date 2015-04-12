@@ -10,7 +10,7 @@ My work is licensed under the MIT-License.
 
 * Download the [Archlinux-ISO](https://www.archlinux.org/download/)
 * Boot the ISO
-* `wget https://github.com/bebehei/archinstall/blob/master/install.sh`
+* `wget https://git.io/vvkPT`
 * Edit `install.sh`
     * use your favorite editor
     * the values are self-explaining
