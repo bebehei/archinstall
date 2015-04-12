@@ -16,6 +16,11 @@ EDITOR=vim
 CHR=arch-chroot
 mountpoint=/mnt/
 
+function chr(){
+	$CHR $mountpoint $*
+
+}
+
 # real script starts here
 
 # partition, create fs and mount
@@ -34,18 +39,18 @@ echo "Server = $new_mirror" > /etc/pacman.d/mirrorlist
 pacstrap $mountpoint/ ${new_basepkg[@]}
 genfstab -pU $mountpoint/ >> $mountpoint/etc/fstab
 echo $new_hostname > $mountpoint/etc/hostname
-$CHR ln -sf /usr/share/zoneinfo/$new_tz /etc/localtime
+chr ln -sf /usr/share/zoneinfo/$new_tz /etc/localtime
 echo $new_lc > $mountpoint/etc/locale.gen
-$CHR locale-gen
+chr locale-gen
 echo LC_ALL=$_new_lc_all >> $mountpoint/etc/locale.conf
-$CHR mkinitcpio -p linux
+chr mkinitcpio -p linux
 
 # if grub is installed not checked
-$CHR grub-install --recheck $new_hd
-$CHR grub-mkconfig -o /boot/grub/grub.cfg
+chr grub-install --recheck $new_hd
+chr grub-mkconfig -o /boot/grub/grub.cfg
 
 # network, sshd, resolved
-$CHR systemctl enable sshd systemd-networkd systemd-resolved
+chr systemctl enable sshd systemd-networkd systemd-resolved
 
 # assemble the network-configuration
 netfile=$mountpoint/etc/systemd/network/50-main.network
@@ -81,7 +86,7 @@ echo "Please write in here your root SSH-Key!" >> $mountpoint/root/.ssh/authoriz
 $EDITOR $mountpoint/root/.ssh/authorized_keys
 
 rm $mountpoint/etc/resolv.conf
-$CHR ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+chr ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 echo "NOW YOU CAN REBOOT!"
 
