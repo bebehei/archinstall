@@ -7,7 +7,7 @@ new_hd=/dev/sda
 new_fs=ext4
 new_hostname=archtest
 new_bootsize=512MB
-new_basepkg=(base base-devel grub vim git openssh)
+new_basepkg=(base base-devel grub vim git openssh) # if you remove vim, you have to edit the EDITOR-VARIABLE
 new_mirror='http://mirror.selfnet.de/archlinux/$repo/os/$arch'
 new_tz="Europe/Berlin"
 
@@ -81,9 +81,9 @@ for ns in $(grep 'nameserver' /etc/resolv.conf | cut -d ' ' -f 2); do
 	echo "DNS=$ns" >> $netfile
 done
 	
-$EDITOR $netfile
+chr $EDITOR $netfile
 echo "Please write in here your root SSH-Key!" >> $mountpoint/root/.ssh/authorized_keys
-$EDITOR $mountpoint/root/.ssh/authorized_keys
+chr $EDITOR $mountpoint/root/.ssh/authorized_keys
 
 rm $mountpoint/etc/resolv.conf
 chr ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
