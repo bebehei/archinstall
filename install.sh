@@ -53,32 +53,32 @@ chr grub-mkconfig -o /boot/grub/grub.cfg
 chr systemctl enable sshd systemd-networkd systemd-resolved
 
 # assemble the network-configuration
-netfile=$mountpoint/etc/systemd/network/50-main.network
-echo '# Archinstall config-script defaults!' > $netfile
-echo '# Please check your network-configuration! The proposed values have no logic!' >> $netfile
-echo '[Match]' >> $netfile
+netfile=/etc/systemd/network/50-main.network
+echo '# Archinstall config-script defaults!' > $mountpoint$netfile
+echo '# Please check your network-configuration! The proposed values have no logic!' >> $mountpoint$netfile
+echo '[Match]' >> $mountpoint$netfile
 for mac in $(ip addr | grep 'link/ether' | sed 's/  */ /g' | cut -d ' ' -f 3); do
-	echo "MACAddress=$mac" >> $netfile
+	echo "MACAddress=$mac" >> $mountpoint$netfile
 done
-echo >> $netfile
-echo >> $netfile
+echo >> $mountpoint$netfile
+echo >> $mountpoint$netfile
 
-echo '[Network]' >> $netfile
+echo '[Network]' >> $mountpoint$netfile
 for address in $(ip addr | grep 'inet' | sed 's/  */ /g' | cut -d ' ' -f 3); do
-	echo "Address=$address" >> $netfile
+	echo "Address=$address" >> $mountpoint$netfile
 done
-echo >> $netfile
+echo >> $mountpoint$netfile
 for gw in $(ip route | grep 'via' | cut -d ' ' -f 3); do
-	echo "Gateway=$gw" >> $netfile
+	echo "Gateway=$gw" >> $mountpoint$netfile
 done
-echo >> $netfile
+echo >> $mountpoint$netfile
 for gw in $(ip -6 route | grep 'via' | cut -d ' ' -f 3); do
-	echo "Gateway=$gw" >> $netfile
+	echo "Gateway=$gw" >> $mountpoint$netfile
 done
-echo >> $netfile
+echo >> $mountpoint$netfile
 
 for ns in $(grep 'nameserver' /etc/resolv.conf | cut -d ' ' -f 2); do
-	echo "DNS=$ns" >> $netfile
+	echo "DNS=$ns" >> $mountpoint$netfile
 done
 	
 chr $EDITOR $netfile
