@@ -18,7 +18,6 @@ mountpoint=/mnt/
 
 function chr(){
 	$CHR $mountpoint $*
-
 }
 
 # real script starts here
