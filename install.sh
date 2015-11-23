@@ -82,7 +82,7 @@ done
 	
 chr $EDITOR $netfile
 echo "Please write in here your root SSH-Key!" >> $mountpoint/root/.ssh/authorized_keys
-chr $EDITOR $mountpoint/root/.ssh/authorized_keys
+chr $EDITOR /root/.ssh/authorized_keys
 
 rm $mountpoint/etc/resolv.conf
 chr ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
