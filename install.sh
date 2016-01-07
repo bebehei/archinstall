@@ -2,7 +2,6 @@
 
 # EDIT these variables
 # configuration-options, edit before execution
-new_lc_all=C
 new_hd=/dev/sda
 new_fs=ext4
 new_hostname=archtest
@@ -10,6 +9,8 @@ new_bootsize=512MB
 new_basepkg=(base base-devel grub vim git openssh) # if you remove vim, you have to edit the EDITOR-VARIABLE
 new_mirror='http://mirror.selfnet.de/archlinux/$repo/os/$arch'
 new_tz="Europe/Berlin"
+new_locale=C
+new_locales="en_us.UTF-8 UTF-8"
 
 # static variables. edit, if neccessary
 EDITOR=vim
@@ -39,9 +40,10 @@ pacstrap $mountpoint/ ${new_basepkg[@]}
 genfstab -pU $mountpoint/ >> $mountpoint/etc/fstab
 echo $new_hostname > $mountpoint/etc/hostname
 chr ln -sf /usr/share/zoneinfo/$new_tz /etc/localtime
-echo $new_lc > $mountpoint/etc/locale.gen
+echo $new_locales > $mountpoint/etc/locale.gen
 chr locale-gen
-echo LC_ALL=$_new_lc_all >> $mountpoint/etc/locale.conf
+echo LC_ALL=$new_locale >> $mountpoint/etc/locale.conf
+echo LANG=$new_locale >> $mountpoint/etc/locale.conf
 chr mkinitcpio -p linux
 
 # if grub is installed not checked
