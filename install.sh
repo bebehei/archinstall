@@ -17,7 +17,7 @@ CHR=arch-chroot
 mountpoint=/mnt/
 
 function chr(){
-	$CHR $mountpoint $*
+	$CHR $mountpoint "$*"
 }
 
 # real script starts here
@@ -84,7 +84,8 @@ chr $EDITOR $netfile
 echo "Please write in here your root SSH-Key!" >> $mountpoint/root/.ssh/authorized_keys
 chr $EDITOR /root/.ssh/authorized_keys
 
-rm $mountpoint/etc/resolv.conf
-chr ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+# modify the resolv.conf in one chroot run.
+# arch-chroot stops chrooting, if there is no resolv.conf file available
+chr "umount /etc/resolv.conf &&  rm /etc/resolv.conf && ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf"
 
 echo "NOW YOU CAN REBOOT!"
