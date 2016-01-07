@@ -82,6 +82,7 @@ for ns in $(grep 'nameserver' /etc/resolv.conf | cut -d ' ' -f 2); do
 done
 	
 chr $EDITOR $netfile
+mkdir -p $mountpoint/root/.ssh/
 echo "Please write in here your root SSH-Key!" >> $mountpoint/root/.ssh/authorized_keys
 chr $EDITOR /root/.ssh/authorized_keys
 
