@@ -30,6 +30,7 @@ parted $new_hd mkpart primary $new_fs $new_bootsize 100%
 mkfs.$new_fs -L $new_hostname-boot ${new_hd}1
 mkfs.$new_fs -L $new_hostname-root ${new_hd}2
 mount ${new_hd}2 $mountpoint/
+mkdir $mountpoint/boot
 mount ${new_hd}1 $mountpoint/boot
 
 # set server to preferred mirror
