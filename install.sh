@@ -46,6 +46,20 @@ echo $new_locales > $mountpoint/etc/locale.gen
 chr locale-gen
 chr mkinitcpio -p linux
 
+# configure grub specially for serial console
+(
+tac $mountpoint/etc/default/grub \
+	| grep -Pv '^[^#]*(GRUB_TERMINAL|GRUB_SERIAL_CONSOLE|GRUB_CMDLINE_LINUX)='
+
+cat <<-END
+GRUB_TERMINAL="console serial gfxterm"
+GRUB_SERIAL_COMMAND="serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+GRUB_CMDLINE_LINUX="text console=tty0 console=ttyS0,115200n8"
+# Support serial console
+END
+
+)	| tac | chr tee /etc/default/grub >/dev/null
+
 # if grub is installed not checked
 chr grub-install --recheck $new_hd
 chr grub-mkconfig -o /boot/grub/grub.cfg
