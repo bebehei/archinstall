@@ -10,7 +10,7 @@ new_basepkg=(base base-devel grub vim git openssh) # if you remove vim, you have
 new_mirror='http://mirror.selfnet.de/archlinux/$repo/os/$arch'
 new_tz="Europe/Berlin"
 new_lang=C
-new_locales="en_us.UTF-8 UTF-8"
+new_locales="en_US.UTF-8 UTF-8"
 
 # static variables. edit, if neccessary
 EDITOR=vim
